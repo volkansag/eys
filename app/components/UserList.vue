@@ -23,10 +23,10 @@
         <div class="col-posts">{{ user.posts?.length || 0 }}</div>
         <div class="col-actions">
           <button class="btn-icon edit" @click="emit('edit', user)" title="Düzenle">
-            ✏️
+            <Pencil :size="16" />
           </button>
           <button class="btn-icon delete" @click="handleDelete(user.id)" title="Sil">
-            🗑️
+            <Trash2 :size="16" />
           </button>
         </div>
       </div>
@@ -35,7 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from '~/types'
+import type { User } from '~~/shared/types'
+import { Pencil, Trash2 } from 'lucide-vue-next'
+
 
 defineProps<{
   selectedUser?: User | null

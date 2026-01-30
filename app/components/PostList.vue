@@ -30,10 +30,10 @@
         </div>
         <div class="col-actions">
           <button class="btn-icon edit" @click="emit('edit', post)" title="Düzenle">
-            ✏️
+            <Pencil :size="16" />
           </button>
           <button class="btn-icon delete" @click="handleDelete(post.id)" title="Sil">
-            🗑️
+            <Trash2 :size="16" />
           </button>
         </div>
       </div>
@@ -42,7 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Post } from '~/types'
+import type { Post } from '~~/shared/types'
+import { Pencil, Trash2 } from 'lucide-vue-next'
+
 
 defineProps<{
   selectedPost?: Post | null

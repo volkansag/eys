@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Post } from '~/types'
+import type { Post } from '~~/shared/types'
 
 const props = defineProps<{
   post?: Post | null

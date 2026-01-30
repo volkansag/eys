@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap')
+
+// Variables
+$font-family: 'Inter', sans-serif
+$primary-color: #4f46e5
+$secondary-color: #0f0f1a
+$text-color: #ffffff
+$background-gradient: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)
+
+// Reset & Base Styles
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    font-family: $font-family
+    background: $background-gradient
+    min-height: 100vh
+    color: $text-color
+    line-height: 1.5
+
+// Global Utilities
+.container
+    max-width: 1400px
+    margin: 0 auto
+    padding: 2rem

@@ -1,179 +1,112 @@
 <template>
-  <div class="container">
-    <header class="header">
-      <h1>📚 Kullanıcı & Post Yönetimi</h1>
-      <p class="subtitle">Prisma + Pinia CRUD Uygulaması</p>
-    </header>
-
-    <div class="content">
-      <!-- Kullanıcılar Bölümü -->
-      <section class="section users-section">
-        <div class="section-header">
-          <h2>👤 Kullanıcılar</h2>
-          <span class="badge">{{ usersStore.users.length }}</span>
-        </div>
-        
-        <UserForm 
-          :user="editingUser" 
-          @saved="handleUserSaved" 
-          @cancel="editingUser = null"
-        />
-        
-        <UserList 
-          :selected-user="editingUser"
-          @edit="editingUser = $event"
-        />
-      </section>
-
-      <!-- Postlar Bölümü -->
-      <section class="section posts-section">
-        <div class="section-header">
-          <h2>📝 Postlar</h2>
-          <span class="badge">{{ postsStore.posts.length }}</span>
-        </div>
-        
-        <PostForm 
-          :post="editingPost" 
-          @saved="handlePostSaved" 
-          @cancel="editingPost = null"
-        />
-        
-        <PostList 
-          :selected-post="editingPost"
-          @edit="editingPost = $event"
-        />
-      </section>
+  <div class="landing-container">
+    <div class="hero">
+      <h1 class="title">EYS Yönetim Paneli</h1>
+      <p class="subtitle">Modern, Hızlı ve Güvenli İçerik Yönetimi</p>
+      
+      <div v-if="loggedIn" class="actions">
+        <p class="welcome-msg">Tekrar hoşgeldin, {{ user?.name }}!</p>
+        <NuxtLink to="/dashboard" class="primary-btn">
+          Panele Git <ArrowRight :size="20" />
+        </NuxtLink>
+      </div>
+      
+      <div v-else class="actions">
+        <NuxtLink to="/login" class="primary-btn">Giriş Yap</NuxtLink>
+        <NuxtLink to="/register" class="secondary-btn">Kayıt Ol</NuxtLink>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { User, Post } from '~/types'
+import { ArrowRight } from 'lucide-vue-next'
 
-const usersStore = useUsersStore()
-const postsStore = usePostsStore()
-
-const editingUser = ref<User | null>(null)
-const editingPost = ref<Post | null>(null)
-
-// Sayfa yüklendiğinde verileri çek
-onMounted(async () => {
-  await Promise.all([
-    usersStore.fetchUsers(),
-    postsStore.fetchPosts()
-  ])
-})
-
-function handleUserSaved() {
-  editingUser.value = null
-  // Kullanıcı güncellendiğinde postları da yenile (yazar bilgisi için)
-  postsStore.fetchPosts()
-}
-
-function handlePostSaved() {
-  editingPost.value = null
-  // Post güncellendiğinde kullanıcıları da yenile (post sayısı için)
-  usersStore.fetchUsers()
-}
+const { loggedIn, user } = useUserSession()
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+<style scoped lang="sass">
+.landing-container
+  min-height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
+  background: radial-gradient(circle at top right, #1a1a2e 0%, #0f0f1a 100%)
+  color: white
+  padding: 20px
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+.hero
+  text-align: center
+  max-width: 600px
+  animation: fadeIn 0.8s ease-out
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-  min-height: 100vh;
-  color: #fff;
-}
-</style>
+.title
+  font-size: 3.5rem
+  font-weight: 800
+  margin-bottom: 1rem
+  background: linear-gradient(135deg, #00d4ff 0%, #a29bfe 100%)
+  background-clip: text
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  line-height: 1.2
 
-<style scoped>
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
-}
+.subtitle
+  font-size: 1.25rem
+  color: rgba(255, 255, 255, 0.6)
+  margin-bottom: 3rem
+  font-weight: 300
 
-.header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
+.actions
+  display: flex
+  justify-content: center
+  gap: 1.5rem
+  align-items: center
+  flex-wrap: wrap
 
-.header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #00d4ff, #a29bfe);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
-}
+.welcome-msg
+  width: 100%
+  margin-bottom: 1rem
+  font-size: 1.1rem
+  color: rgba(255, 255, 255, 0.9)
 
-.subtitle {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-}
+.primary-btn, .secondary-btn
+  display: inline-flex
+  align-items: center
+  gap: 0.5rem
+  padding: 12px 32px
+  border-radius: 12px
+  font-weight: 600
+  text-decoration: none
+  transition: all 0.3s ease
+  font-size: 1.1rem
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
+.primary-btn
+  background: #4f46e5
+  color: white
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3)
+  &:hover
+    background: #4338ca
+    transform: translateY(-2px)
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4)
 
-@media (max-width: 1200px) {
-  .content {
-    grid-template-columns: 1fr;
-  }
-}
+.secondary-btn
+  background: rgba(255, 255, 255, 0.1)
+  color: white
+  backdrop-filter: blur(10px)
+  border: 1px solid rgba(255, 255, 255, 0.1)
+  &:hover
+    background: rgba(255, 255, 255, 0.15)
+    transform: translateY(-2px)
 
-.section {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
+@keyframes fadeIn
+  from 
+    opacity: 0
+    transform: translateY(20px)
+  to 
+    opacity: 1
+    transform: translateY(0)
 
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.section-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 0.5rem;
-  background: rgba(0, 212, 255, 0.2);
-  color: #00d4ff;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.users-section .badge {
-  background: rgba(0, 184, 148, 0.2);
-  color: #00b894;
-}
-
-.posts-section .badge {
-  background: rgba(108, 92, 231, 0.2);
-  color: #a29bfe;
-}
+@media (max-width: 600px)
+  .title
+    font-size: 2.5rem
 </style>
