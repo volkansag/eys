@@ -12,4 +12,13 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        sass: {
+          additionalData: '@use "~/assets/sass/_variables.sass" as *\n',
+        },
+      },
+    },
+  },
 });

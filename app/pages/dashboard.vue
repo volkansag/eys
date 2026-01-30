@@ -1,55 +1,56 @@
 <template>
-  <div class="container">
-    <header class="header">
-      <div class="user-bar">
-        <span class="welcome-text">👋 Hoşgeldin, <strong>{{ user?.name }}</strong></span>
-        <button @click="logout" class="logout-btn">Çıkış Yap</button>
+  <NuxtLayout name="dashboard">
+    <div class="container">
+      <header class="header">
+        <div class="user-bar">
+          <span class="welcome-text">👋 Hoşgeldin, <strong>{{ user?.name }}</strong></span>
+        </div>
+        
+        <h1>📚 Dashboard</h1>
+        <p class="subtitle">Kullanıcı & Post Yönetimi</p>
+      </header>
+  
+      <div class="content">
+        <!-- Kullanıcılar Bölümü -->
+        <section class="section users-section">
+          <div class="section-header">
+            <h2>👤 Kullanıcılar</h2>
+            <span class="badge">{{ usersStore.users.length }}</span>
+          </div>
+          
+          <UserForm 
+            :user="editingUser" 
+            @saved="handleUserSaved" 
+            @cancel="editingUser = null"
+          />
+          
+          <UserList 
+            :selected-user="editingUser"
+            @edit="editingUser = $event"
+          />
+        </section>
+  
+        <!-- Postlar Bölümü -->
+        <section class="section posts-section">
+          <div class="section-header">
+            <h2>📝 Postlar</h2>
+            <span class="badge">{{ postsStore.posts.length }}</span>
+          </div>
+          
+          <PostForm 
+            :post="editingPost" 
+            @saved="handlePostSaved" 
+            @cancel="editingPost = null"
+          />
+          
+          <PostList 
+            :selected-post="editingPost"
+            @edit="editingPost = $event"
+          />
+        </section>
       </div>
-      
-      <h1>📚 Dashboard</h1>
-      <p class="subtitle">Kullanıcı & Post Yönetimi</p>
-    </header>
-
-    <div class="content">
-      <!-- Kullanıcılar Bölümü -->
-      <section class="section users-section">
-        <div class="section-header">
-          <h2>👤 Kullanıcılar</h2>
-          <span class="badge">{{ usersStore.users.length }}</span>
-        </div>
-        
-        <UserForm 
-          :user="editingUser" 
-          @saved="handleUserSaved" 
-          @cancel="editingUser = null"
-        />
-        
-        <UserList 
-          :selected-user="editingUser"
-          @edit="editingUser = $event"
-        />
-      </section>
-
-      <!-- Postlar Bölümü -->
-      <section class="section posts-section">
-        <div class="section-header">
-          <h2>📝 Postlar</h2>
-          <span class="badge">{{ postsStore.posts.length }}</span>
-        </div>
-        
-        <PostForm 
-          :post="editingPost" 
-          @saved="handlePostSaved" 
-          @cancel="editingPost = null"
-        />
-        
-        <PostList 
-          :selected-post="editingPost"
-          @edit="editingPost = $event"
-        />
-      </section>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
@@ -59,13 +60,7 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { user, clear } = useUserSession()
-const router = useRouter()
-
-async function logout() {
-  await clear()
-  router.push('/')
-}
+const { user } = useUserSession()
 
 const usersStore = useUsersStore()
 const postsStore = usePostsStore()
@@ -94,29 +89,13 @@ function handlePostSaved() {
 }
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-  min-height: 100vh;
-  color: #fff;
-}
-</style>
 
 <style scoped lang="sass">
 .container
-  max-width: 1400px
-  margin: 0 auto
-  padding: 2rem
-  min-height: 100vh
+  /* max-width handled by layout */
+  /* padding handled by layout */
+  width: 100%
 
 .header
   text-align: center
