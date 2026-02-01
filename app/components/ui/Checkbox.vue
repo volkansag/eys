@@ -1,22 +1,22 @@
 <script setup lang="ts">
 interface Props {
-  modelValue: boolean
-  label?: string
-  disabled?: boolean
+  modelValue: boolean;
+  label?: string;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
-  label: '',
-  disabled: false
-})
+  label: "",
+  disabled: false,
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"]);
 
 const handleChange = () => {
-  if (props.disabled) return
-  emit('update:modelValue', !props.modelValue)
-}
+  if (props.disabled) return;
+  emit("update:modelValue", !props.modelValue);
+};
 </script>
 
 <template>
@@ -28,7 +28,10 @@ const handleChange = () => {
       :disabled="disabled"
       @change="handleChange"
     />
-    <div class="checkbox__control" :class="{ 'checkbox__control--checked': modelValue }">
+    <div
+      class="checkbox__control"
+      :class="{ 'checkbox__control--checked': modelValue }"
+    >
       <svg
         v-if="modelValue"
         class="checkbox__icon"
@@ -48,6 +51,8 @@ const handleChange = () => {
 </template>
 
 <style lang="sass" scoped>
+@use "~/assets/sass/shared/_colors.sass" as *
+
 .checkbox
   display: inline-flex
   align-items: center
@@ -68,16 +73,17 @@ const handleChange = () => {
   &__control
     width: 20px
     height: 20px
-    border: none
+    border: 1px solid $light-border
     border-radius: 0.375rem
     display: flex
     align-items: center
     justify-content: center
     transition: all 200ms ease
-    background-color: rgba(255, 255, 255, 0.1)
+    background-color: $light-surface
 
     &--checked
-      background-color: $color-primary
+      background-color: $light-primary
+      border-color: $light-primary
 
   &__icon
     width: 14px
@@ -89,15 +95,15 @@ const handleChange = () => {
 
   &__label
     margin-left: 0.5rem
-    font-size: 1rem
-    color: $color-text
+    font-size: 0.95rem
+    color: $light-text-primary
 
   &:hover:not(.checkbox--disabled) .checkbox__control
-    background-color: rgba(255, 255, 255, 0.15)
+    border-color: $light-primary
 
 @keyframes dash
   from
     stroke-dashoffset: 24
-  to 
+  to
     stroke-dashoffset: 0
 </style>
