@@ -12,7 +12,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
-  size: 'md',
+  size: 'lg',
   disabled: false,
   loading: false,
   block: false,
@@ -75,7 +75,7 @@ const classes = computed(() => {
   align-items: center
   justify-content: center
   border: none
-  border-radius: 4px
+  border-radius: 9999px
   font-family: 'Inter', sans-serif
   font-weight: 500
   letter-spacing: 0.5px

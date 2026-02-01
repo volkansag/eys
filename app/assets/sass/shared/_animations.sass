@@ -12,6 +12,7 @@ $duration-normal: 250ms
 $duration-slow: 400ms
 $duration-slower: 500ms
 $duration-slowest: 800ms
+$duration-1s: 1000ms
 
 // -----------------------------------------------------
 // EASING CURVES
@@ -196,3 +197,45 @@ $ease-gpu: cubic-bezier(0.25, 0.1, 0.25, 1)
 
 =animate-shake
     +animate(shake, 500ms, $ease-smooth)
+
+// -----------------------------------------------------
+// SLIDE RIGHT KEYFRAMES (for Toasts, Drawers, Popups)
+// -----------------------------------------------------
+@keyframes slideInRight
+    from
+        opacity: 0
+        transform: translate3d(100%, 0, 0)
+    to
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+
+@keyframes slideOutRight
+    from
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+    to
+        opacity: 0
+        transform: translate3d(100%, 0, 0)
+
+// -----------------------------------------------------
+// POPUP/TOAST TRANSITION MIXINS
+// Kullanım: Vue transition sınıflarında @include ile kullanın
+// -----------------------------------------------------
+
+// Popup giriş animasyonu (hızlı, elastic efektli)
+=popup-enter-active
+    transition: transform $duration-slow $ease-bounce, opacity $duration-normal $ease-out
+
+// Popup çıkış animasyonu (hızlı)
+=popup-leave-active
+    transition: transform $duration-slow $ease-out, opacity $duration-normal $ease-out
+
+// Popup giriş başlangıç durumu (sağdan)
+=popup-enter-from
+    opacity: 0
+    transform: translateX(100%)
+
+// Popup çıkış bitiş durumu (sağa)
+=popup-leave-to
+    opacity: 0
+    transform: translateX(100%)
