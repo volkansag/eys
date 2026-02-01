@@ -3,6 +3,19 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: false },
   modules: ["@pinia/nuxt", "nuxt-auth-utils"],
+  nitro: {
+    preset: "node-server",
+    esbuild: {
+      options: {
+        target: "esnext",
+      },
+    },
+    rollupConfig: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
+  },
   css: ["~/assets/sass/main.sass"],
   runtimeConfig: {
     oauth: {
