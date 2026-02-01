@@ -16,21 +16,12 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: ["~/assets/sass/main.sass"],
+  css: ["~/assets/sass/global.sass"],
   runtimeConfig: {
     oauth: {
       google: {
         clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
         clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
-      },
-    },
-  },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        sass: {
-          additionalData: '@use "~/assets/sass/_variables.sass" as *\n',
-        },
       },
     },
   },

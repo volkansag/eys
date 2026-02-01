@@ -1,7 +1,5 @@
-import prisma from "~~/server/utils/db";
-
 export default defineEventHandler(async () => {
-  const users = await prisma.user.findMany({
+  const users = await db.user.findMany({
     include: {
       posts: true,
     },

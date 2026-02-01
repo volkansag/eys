@@ -1,9 +1,7 @@
-import prisma from "~~/server/utils/db";
-
 export default defineEventHandler(async (event) => {
   const id = Number(getRouterParam(event, "id"));
 
-  await prisma.post.delete({
+  await db.post.delete({
     where: { id },
   });
 

@@ -1,0 +1,37 @@
+// =====================================================
+// GLOBAL SASS - Merkezi stil dosyası
+// nuxt.config.ts tarafından css[] ile yüklenir
+// =====================================================
+
+// -----------------------------------------------------
+// IMPORTS - @use kuralları @forward'dan sonra
+// -----------------------------------------------------
+@use './shared/_colors' as *
+@use './shared/_variables' as *
+@use './shared/_animations' as *
+
+// Google Fonts (@import CSS kuralı olduğu için @forward/@use'dan sonra)
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap')
+
+// -----------------------------------------------------
+// RESET & BASE STYLES
+// -----------------------------------------------------
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    font-family: $font-family
+    background: $background-gradient
+    min-height: 100vh
+    color: $dark-text-primary
+    line-height: 1.5
+
+// -----------------------------------------------------
+// GLOBAL UTILITIES
+// -----------------------------------------------------
+.container
+    max-width: 1400px
+    margin: 0 auto
+    padding: 2rem

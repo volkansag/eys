@@ -1,0 +1,198 @@
+// =====================================================
+// ANIMATION SYSTEM
+// Merkezi animasyon değişkenleri, mixin'ler ve keyframe'ler
+// =====================================================
+
+// -----------------------------------------------------
+// TIMING VARIABLES
+// -----------------------------------------------------
+$duration-instant: 100ms
+$duration-fast: 150ms
+$duration-normal: 250ms
+$duration-slow: 400ms
+$duration-slower: 500ms
+$duration-slowest: 800ms
+
+// -----------------------------------------------------
+// EASING CURVES
+// -----------------------------------------------------
+$ease-linear: linear
+$ease-in: ease-in
+$ease-out: ease-out
+$ease-in-out: ease-in-out
+
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1)
+$ease-decelerate: cubic-bezier(0, 0, 0.2, 1)
+$ease-accelerate: cubic-bezier(0.4, 0, 1, 1)
+
+$ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1)
+$ease-spring: cubic-bezier(0.32, 0.72, 0, 1)
+$ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+
+$ease-gpu: cubic-bezier(0.25, 0.1, 0.25, 1)
+
+// -----------------------------------------------------
+// TRANSITION MIXINS
+// -----------------------------------------------------
+
+// Temel transition mixin
+=transition($properties: all, $duration: $duration-normal, $easing: $ease-smooth, $delay: 0ms)
+    transition: $properties $duration $easing $delay
+    will-change: $properties
+
+// Hazır transition mixin'leri
+=transition-fast($properties: all)
+    +transition($properties, $duration-fast, $ease-smooth)
+
+=transition-normal($properties: all)
+    +transition($properties, $duration-normal, $ease-smooth)
+
+=transition-slow($properties: all)
+    +transition($properties, $duration-slow, $ease-smooth)
+
+=transition-bounce($properties: all)
+    +transition($properties, $duration-slow, $ease-bounce)
+
+=transition-spring($properties: all)
+    +transition($properties, $duration-normal, $ease-spring)
+
+=transition-transform($duration: $duration-normal, $easing: $ease-spring)
+    transition: transform $duration $easing
+    will-change: transform
+    transform: translateZ(0)
+    backface-visibility: hidden
+
+=transition-opacity($duration: $duration-normal, $easing: $ease-smooth)
+    transition: opacity $duration $easing
+    will-change: opacity
+
+// -----------------------------------------------------
+// GPU ACCELERATION MIXINS
+// -----------------------------------------------------
+=gpu-accelerate
+    transform: translateZ(0)
+    backface-visibility: hidden
+    perspective: 1000px
+
+=will-change($properties)
+    will-change: $properties
+
+// -----------------------------------------------------
+// KEYFRAME ANIMATIONS
+// -----------------------------------------------------
+
+@keyframes fadeIn
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+@keyframes fadeInUp
+    from
+        opacity: 0
+        transform: translate3d(0, 20px, 0)
+    to
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+
+@keyframes fadeInDown
+    from
+        opacity: 0
+        transform: translate3d(0, -20px, 0)
+    to
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+
+@keyframes fadeInLeft
+    from
+        opacity: 0
+        transform: translate3d(-20px, 0, 0)
+    to
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+
+@keyframes fadeInRight
+    from
+        opacity: 0
+        transform: translate3d(20px, 0, 0)
+    to
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+
+@keyframes scaleIn
+    from
+        opacity: 0
+        transform: scale3d(0.95, 0.95, 1)
+    to
+        opacity: 1
+        transform: scale3d(1, 1, 1)
+
+@keyframes scaleOut
+    from
+        opacity: 1
+        transform: scale3d(1, 1, 1)
+    to
+        opacity: 0
+        transform: scale3d(0.95, 0.95, 1)
+
+@keyframes slideInLeft
+    from
+        transform: translate3d(-100%, 0, 0)
+    to
+        transform: translate3d(0, 0, 0)
+
+@keyframes slideOutLeft
+    from
+        transform: translate3d(0, 0, 0)
+    to
+        transform: translate3d(-100%, 0, 0)
+
+@keyframes pulse
+    0%, 100%
+        opacity: 1
+    50%
+        opacity: 0.7
+
+@keyframes shake
+    0%, 100%
+        transform: translate3d(0, 0, 0)
+    10%, 30%, 50%, 70%, 90%
+        transform: translate3d(-5px, 0, 0)
+    20%, 40%, 60%, 80%
+        transform: translate3d(5px, 0, 0)
+
+@keyframes spin
+    from
+        transform: rotate(0deg)
+    to
+        transform: rotate(360deg)
+
+// -----------------------------------------------------
+// ANIMATION HELPER MIXINS
+// -----------------------------------------------------
+
+=animate($name, $duration: $duration-normal, $easing: $ease-smooth, $delay: 0ms, $fill-mode: both)
+    animation: $name $duration $easing $delay $fill-mode
+
+=animate-fadeIn($duration: $duration-slower)
+    +animate(fadeIn, $duration, $ease-out)
+
+=animate-fadeInUp($duration: $duration-slower)
+    +animate(fadeInUp, $duration, $ease-out)
+
+=animate-fadeInDown($duration: $duration-normal)
+    +animate(fadeInDown, $duration, $ease-out)
+
+=animate-scaleIn($duration: $duration-normal)
+    +animate(scaleIn, $duration, $ease-spring)
+
+=animate-pulse
+    +animate(pulse, 2s, $ease-in-out, 0ms, both)
+    animation-iteration-count: infinite
+
+=animate-spin
+    +animate(spin, 1s, $ease-linear, 0ms, both)
+    animation-iteration-count: infinite
+
+=animate-shake
+    +animate(shake, 500ms, $ease-smooth)

@@ -73,6 +73,9 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="sass">
+@use "~/assets/sass/shared/_colors.sass" as *
+@use "~/assets/sass/shared/_animations.sass" as *
+
 .drawer-backdrop
   position: fixed
   top: 0
@@ -80,8 +83,8 @@ onUnmounted(() => {
   width: 100vw
   height: 100vh
   background-color: rgba(0, 0, 0, 0.5)
-  backdrop-filter: blur(4px)
   z-index: 9998
+  +will-change(opacity)
 
 .drawer-panel
   position: fixed
@@ -90,51 +93,53 @@ onUnmounted(() => {
   width: 300px
   max-width: 80vw
   height: 100vh
-  background-color: $color-background
-  border-right: 1px solid $color-border
+  background-color: $dark-bg
+  border-right: 1px solid $dark-border
   z-index: 9999
   display: flex
   flex-direction: column
   box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5)
+  +gpu-accelerate
+  +will-change(transform)
 
 .drawer-header
   padding: 1.5rem
   display: flex
   align-items: center
   justify-content: space-between
-  border-bottom: 1px solid $color-border
+  border-bottom: 1px solid $dark-border
 
 .drawer-title
   font-size: 1.25rem
   font-weight: 600
-  color: $color-text
+  color: $dark-text-primary
   margin: 0
 
 .close-btn
   background: transparent
   border: none
-  color: $color-text-muted
+  color: $dark-text-muted
   cursor: pointer
   padding: 4px
   border-radius: 4px
-  transition: all 0.2s ease
+  +transition-fast
   display: flex
   align-items: center
   justify-content: center
 
 .close-btn:hover
-  color: $color-text
-  background-color: $color-surface-hover
+  color: $dark-text-primary
+  background-color: $dark-surface-hover
 
 .drawer-content
   flex: 1
   overflow-y: auto
   padding: 1.5rem
 
-/* Transitions */
+/* Transitions - GPU accelerated using centralized animation system */
 .drawer-fade-enter-active,
 .drawer-fade-leave-active
-  transition: opacity 0.3s ease
+  +transition-opacity($duration-normal, $ease-smooth)
 
 .drawer-fade-enter-from,
 .drawer-fade-leave-to
@@ -142,9 +147,9 @@ onUnmounted(() => {
 
 .drawer-slide-enter-active,
 .drawer-slide-leave-active
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)
+  +transition-transform($duration-normal, $ease-spring)
 
 .drawer-slide-enter-from,
 .drawer-slide-leave-to
-  transform: translateX(-100%)
+  transform: translate3d(-100%, 0, 0)
 </style>

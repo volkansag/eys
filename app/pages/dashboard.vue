@@ -1,62 +1,61 @@
 <template>
-  <NuxtLayout name="dashboard">
-    <div class="container">
-      <header class="header">
-        <div class="user-bar">
-          <span class="welcome-text">👋 Hoşgeldin, <strong>{{ user?.name }}</strong></span>
+  <div class="container">
+    <header class="header">
+      <div class="user-bar">
+        <span class="welcome-text">👋 Hoşgeldin, <strong>{{ user?.name }}</strong></span>
+      </div>
+      
+      <h1>📚 Dashboard</h1>
+      <p class="subtitle">Kullanıcı & Post Yönetimi</p>
+    </header>
+
+    <div class="content">
+      <!-- Kullanıcılar Bölümü -->
+      <section class="section users-section">
+        <div class="section-header">
+          <h2>👤 Kullanıcılar</h2>
+          <span class="badge">{{ usersStore.users.length }}</span>
         </div>
         
-        <h1>📚 Dashboard</h1>
-        <p class="subtitle">Kullanıcı & Post Yönetimi</p>
-      </header>
-  
-      <div class="content">
-        <!-- Kullanıcılar Bölümü -->
-        <section class="section users-section">
-          <div class="section-header">
-            <h2>👤 Kullanıcılar</h2>
-            <span class="badge">{{ usersStore.users.length }}</span>
-          </div>
-          
-          <UserForm 
-            :user="editingUser" 
-            @saved="handleUserSaved" 
-            @cancel="editingUser = null"
-          />
-          
-          <UserList 
-            :selected-user="editingUser"
-            @edit="editingUser = $event"
-          />
-        </section>
-  
-        <!-- Postlar Bölümü -->
-        <section class="section posts-section">
-          <div class="section-header">
-            <h2>📝 Postlar</h2>
-            <span class="badge">{{ postsStore.posts.length }}</span>
-          </div>
-          
-          <PostForm 
-            :post="editingPost" 
-            @saved="handlePostSaved" 
-            @cancel="editingPost = null"
-          />
-          
-          <PostList 
-            :selected-post="editingPost"
-            @edit="editingPost = $event"
-          />
-        </section>
-      </div>
+        <UserForm 
+          :user="editingUser" 
+          @saved="handleUserSaved" 
+          @cancel="editingUser = null"
+        />
+        
+        <UserList 
+          :selected-user="editingUser"
+          @edit="editingUser = $event"
+        />
+      </section>
+
+      <!-- Postlar Bölümü -->
+      <section class="section posts-section">
+        <div class="section-header">
+          <h2>📝 Postlar</h2>
+          <span class="badge">{{ postsStore.posts.length }}</span>
+        </div>
+        
+        <PostForm 
+          :post="editingPost" 
+          @saved="handlePostSaved" 
+          @cancel="editingPost = null"
+        />
+        
+        <PostList 
+          :selected-post="editingPost"
+          @edit="editingPost = $event"
+        />
+      </section>
     </div>
-  </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts">
 import type { User, Post } from '~~/shared/types'
 
 definePageMeta({
+  layout: 'dashboard',
   middleware: 'auth'
 })
 

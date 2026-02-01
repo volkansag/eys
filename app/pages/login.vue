@@ -121,7 +121,6 @@ async function login() {
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   width: 100%;
   max-width: 400px;
-  animation: fadeIn 0.5s ease-out;
 }
 
 .auth-title {
@@ -258,8 +257,4 @@ async function login() {
   text-decoration: underline;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 </style>
