@@ -1,12 +1,11 @@
 <template>
   <div class="logo">
     <AnimatedLogo />
-    <span class="app-title">aSc k12 Bilişim Ders Planlama 2025</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import AnimatedLogo from "~/components/ui/AnimatedLogo.vue";
+import AnimatedLogo from "./AnimatedLogo.vue";
 </script>
 
 <style scoped lang="sass">

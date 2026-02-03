@@ -1,3 +1,5 @@
+@use "sass:color"
+
 // =====================================================
 // COLOR PALETTE SYSTEM
 // =====================================================
@@ -72,3 +74,20 @@ $background-gradient: $gradient-dark
 
 $gradient-light-primary: linear-gradient(135deg, $light-primary 0%, #00a070 100%)
 $gradient-light-brand: linear-gradient(135deg, $light-secondary 0%, $light-primary 100%)
+
+// -----------------------------------------------------
+// MIXINS
+// -----------------------------------------------------
+@mixin hover-lighten-effect($color, $amount: 10%)
+    background-color: $color
+    transition: all 0.2s ease-in-out
+    &:hover
+        background-color: color.adjust($color, $lightness: $amount)
+        cursor: pointer
+
+@mixin hover-darken-effect($color, $amount: 10%)
+    background-color: $color
+    transition: all 0.2s ease-in-out
+    &:hover
+        background-color: color.adjust($color, $lightness: -$amount)
+        cursor: pointer

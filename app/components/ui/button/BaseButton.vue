@@ -1,47 +1,52 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'text' | 'tonal'
-  size?: 'sm' | 'md' | 'lg'
-  disabled?: boolean
-  loading?: boolean
-  block?: boolean
-  type?: 'button' | 'submit' | 'reset'
+  variant?: "primary" | "secondary" | "text" | "tonal";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  loading?: boolean;
+  block?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'lg',
+  variant: "primary",
+  size: "lg",
   disabled: false,
   loading: false,
   block: false,
-  type: 'button'
-})
+  type: "button",
+});
 
-const { ripples, addRipple } = useRipple()
+const { ripples, addRipple } = useRipple();
 
 const handleClick = (e: MouseEvent) => {
-  if (props.disabled || props.loading) return
-  addRipple(e)
-}
+  if (props.disabled || props.loading) return;
+  addRipple(e);
+};
 
 const classes = computed(() => {
   return [
-    'btn',
+    "btn",
     `btn--${props.variant}`,
     `btn--${props.size}`,
-    { 
-      'btn--block': props.block,
-      'btn--disabled': props.disabled,
-      'btn--loading': props.loading
-    }
-  ]
-})
+    {
+      "btn--block": props.block,
+      "btn--disabled": props.disabled,
+      "btn--loading": props.loading,
+    },
+  ];
+});
 </script>
 
 <template>
-  <button :class="classes" :type="type" @click="handleClick" :disabled="disabled || loading">
+  <button
+    :class="classes"
+    :type="type"
+    @click="handleClick"
+    :disabled="disabled || loading"
+  >
     <transition name="fade-scale">
       <span v-if="loading" class="btn__loader">
         <span class="dot"></span>
@@ -52,15 +57,17 @@ const classes = computed(() => {
     <span class="btn__content" :class="{ 'btn__content--hidden': loading }">
       <slot></slot>
     </span>
-    <span v-for="ripple in ripples" 
-          :key="ripple.id" 
-          class="ripple" 
-          :style="{ 
-            left: `${ripple.x}px`, 
-            top: `${ripple.y}px`, 
-            width: `${ripple.size}px`, 
-            height: `${ripple.size}px` 
-          }">
+    <span
+      v-for="ripple in ripples"
+      :key="ripple.id"
+      class="ripple"
+      :style="{
+        left: `${ripple.x}px`,
+        top: `${ripple.y}px`,
+        width: `${ripple.size}px`,
+        height: `${ripple.size}px`,
+      }"
+    >
     </span>
   </button>
 </template>
@@ -90,7 +97,7 @@ const classes = computed(() => {
 
   &:focus-visible
     background-color: color.adjust($btn-primary-bg, $lightness: 5%)
-  
+
   // Sizes
   &--sm
     padding: 0 16px
@@ -112,26 +119,18 @@ const classes = computed(() => {
 
   // Variants
   &--primary
-    background-color: $btn-primary-bg
+    @include hover-lighten-effect($btn-primary-bg, 5%)
     color: $btn-primary-text
     box-shadow: none
-    
-    &:hover:not(.btn--disabled)
-      background-color: color.adjust($btn-primary-bg, $lightness: 5%)
-      box-shadow: none
-    
+
     &:active:not(.btn--disabled)
       background-color: color.adjust($btn-primary-bg, $lightness: -5%)
 
   &--secondary
-    background-color: $btn-secondary-bg
+    @include hover-lighten-effect($btn-secondary-bg, 5%)
     color: $btn-secondary-text
     box-shadow: none
-    
-    &:hover:not(.btn--disabled)
-      background-color: color.adjust($btn-secondary-bg, $lightness: 5%)
-      box-shadow: none
-    
+
     &:active:not(.btn--disabled)
       background-color: color.adjust($btn-secondary-bg, $lightness: -5%)
 
@@ -142,7 +141,7 @@ const classes = computed(() => {
     &:hover:not(.btn--disabled)
       background-color: rgba(255,255,255,0.1)
       box-shadow: none
-  
+
   &--tonal
     background-color: rgba($light-primary, 0.1)
     color: $light-primary
@@ -190,7 +189,7 @@ const classes = computed(() => {
   justify-content: center
   gap: 8px
   transition: opacity 0.3s ease, transform 0.3s ease
-  
+
   &--hidden
     opacity: 0
     transform: scale(0.8)
@@ -201,7 +200,7 @@ const classes = computed(() => {
   background-color: currentColor
   border-radius: 50%
   animation: dot-wave 1.4s infinite ease-in-out both
-  
+
   &:nth-child(1)
     animation-delay: -0.32s
   &:nth-child(2)

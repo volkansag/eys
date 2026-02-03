@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import HamburgerMenuButton from "./HamburgerMenuButton.vue";
-import HeaderLogo from "./HeaderLogo.vue";
+import HeaderLogo from "./HeaderLogo/HeaderLogo.vue";
+import HeaderSearch from "./HeaderSearch.vue";
 </script>
 
 <template>
   <div class="left-section">
     <HamburgerMenuButton />
     <HeaderLogo />
+    <HeaderSearch />
   </div>
 </template>
 

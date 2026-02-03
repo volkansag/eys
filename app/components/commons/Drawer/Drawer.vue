@@ -47,7 +47,15 @@ watch(
   () => isOpen.value,
   (val) => {
     if (typeof document !== "undefined") {
-      document.body.style.overflow = val ? "hidden" : "";
+      if (val) {
+        const scrollbarWidth =
+          window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      }
     }
   },
 );
@@ -62,6 +70,7 @@ onUnmounted(() => {
   if (typeof window !== "undefined") {
     window.removeEventListener("keydown", handleKeydown);
     document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
   }
 });
 </script>

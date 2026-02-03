@@ -26,17 +26,11 @@ const logout = async () => {
   align-items: center
   gap: 6px
   padding: 6px 14px
-  background: rgba($light-primary, 0.08)
   border: none
   border-radius: 8px
-  color: $light-primary
+  color: #8D3FD0
   font-size: 13px
   font-weight: 500
-  cursor: pointer
-  transition: all 0.2s ease
   font-family: 'Inter', sans-serif
-
-  &:hover
-    background: $light-primary
-    color: #fff
+  @include hover-darken-effect(#f0f3ff, 5%)
 </style>
